@@ -88,8 +88,10 @@ const styles = StyleSheet.create({
     top: 50,
   },
   dropdownButton: {
-    backgroundColor: "#333",
+    backgroundColor: "#13155A",
     borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "white",
     padding: 10,
     width: 120,
     justifyContent: "center",
@@ -102,8 +104,10 @@ const styles = StyleSheet.create({
   dropdownList: {
     position: "absolute",
     top: 45,
-    backgroundColor: "#444",
+    backgroundColor: "#13155A",
     borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#999",
     width: 120,
     elevation: 5,
     shadowColor: "#000",
@@ -118,7 +122,7 @@ const styles = StyleSheet.create({
   dropdownItem: {
     padding: 12,
     borderBottomWidth: 1,
-    borderBottomColor: "#555",
+    borderBottomColor: "#666",
   },
   dropdownItemText: {
     color: "white",

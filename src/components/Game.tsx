@@ -1,5 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  ImageBackground,
+} from "react-native";
 import { LevelSelector } from "./LevelSelector";
 import { GameGrid } from "./GameGrid";
 import Icon from "react-native-vector-icons/MaterialIcons";
@@ -19,7 +25,7 @@ const IMAGES = {
   whiteTiger: require("../../assets/images/white-tiger.jpg"),
 };
 
-const CARD_PAIRS = 8;
+const BACKGROUND_IMAGE = require("../../assets/images/bg.jpg");
 
 export default function Game() {
   const [cards, setCards] = useState<string[]>([]);
@@ -84,55 +90,69 @@ export default function Game() {
   }, [gameOverCondition]);
 
   return (
-    <View style={styles.container}>
-      <WinMatch win={win} initializeGame={initializeGame} />
+    <ImageBackground
+      source={BACKGROUND_IMAGE}
+      style={styles.backgroundImage}
+      resizeMode="cover"
+    >
+      <View style={styles.container}>
+        <WinMatch win={win} initializeGame={initializeGame} />
 
-      <View style={styles.homeButtonContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate("Home")}>
-          <Icon name="home" size={24} style={styles.homeButton} />
-        </TouchableOpacity>
-      </View>
-
-      <LevelSelector
-        click={click}
-        setMaxMoves={setMaxMoves}
-        initializeGame={initializeGame}
-        selectedLevel={selectedLevel}
-        setSelectedLevel={setSelectedLevel}
-      />
-
-      <GameGrid
-        cards={cards}
-        flipped={flipped}
-        solved={solved}
-        images={IMAGES}
-        onCardPress={handleCardPress}
-      />
-
-      {gameOver && (
-        <View style={styles.gameOverContainer}>
-          <Text style={styles.gameOverText}>Game Over!</Text>
-          <TouchableOpacity style={styles.resetButton} onPress={initializeGame}>
-            <Icon name="refresh" size={30} color="#fff" />
+        <View style={styles.homeButtonContainer}>
+          <TouchableOpacity onPress={() => navigation.navigate("Home")}>
+            <Icon name="home" size={24} style={styles.homeButton} />
           </TouchableOpacity>
         </View>
-      )}
 
-      {!gameOver && (
-        <TouchableOpacity style={styles.resetButton} onPress={initializeGame}>
-          <Icon name="refresh" size={32} color="#fff" />
-        </TouchableOpacity>
-      )}
-    </View>
+        <LevelSelector
+          click={click}
+          setMaxMoves={setMaxMoves}
+          initializeGame={initializeGame}
+          selectedLevel={selectedLevel}
+          setSelectedLevel={setSelectedLevel}
+        />
+
+        <GameGrid
+          cards={cards}
+          flipped={flipped}
+          solved={solved}
+          images={IMAGES}
+          onCardPress={handleCardPress}
+        />
+
+        {gameOver && (
+          <View style={styles.gameOverContainer}>
+            <Text style={styles.gameOverText}>Game Over!</Text>
+            <TouchableOpacity
+              style={styles.resetButton}
+              onPress={initializeGame}
+            >
+              <Icon name="refresh" size={30} color="#fff" />
+            </TouchableOpacity>
+          </View>
+        )}
+
+        {!gameOver && (
+          <TouchableOpacity style={styles.resetButton} onPress={initializeGame}>
+            <Icon name="refresh" size={32} color="#fff" />
+          </TouchableOpacity>
+        )}
+      </View>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+  },
   container: {
     flex: 1,
-    backgroundColor: "#1a1a1a",
     justifyContent: "center",
     alignItems: "center",
+    paddingHorizontal: 20,
   },
   homeButtonContainer: {
     position: "absolute",
@@ -140,7 +160,7 @@ const styles = StyleSheet.create({
     right: 10,
   },
   homeButton: {
-    backgroundColor: "#444",
+    backgroundColor: "#13155A",
     borderRadius: 10,
     margin: 6,
     padding: 4,
@@ -148,24 +168,22 @@ const styles = StyleSheet.create({
   },
   resetButton: {
     marginTop: 20,
-    padding: 15,
-    backgroundColor: "#444",
+    padding: 7,
+    backgroundColor: "#13155A",
     borderRadius: 25,
-    width: 70,
-    height: 70,
+    borderWidth: 1,
+    borderColor: "white",
+    width: 50,
+    height: 50,
     justifyContent: "center",
     alignItems: "center",
-  },
-  resetButtonText: {
-    color: "white",
-    fontSize: 10,
   },
   gameOverContainer: {
     position: "absolute",
     top: "40%",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#333",
+    backgroundColor: "rgba(0, 0, 0, 0.8)",
     padding: 20,
     borderRadius: 10,
     width: "80%",

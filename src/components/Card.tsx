@@ -40,8 +40,10 @@ const styles = StyleSheet.create({
   card: {
     width: "20%",
     height: 100,
-    backgroundColor: "#2a2a2a",
+    backgroundColor: "#13155A",
     borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#FFD700",
     justifyContent: "center",
     alignItems: "center",
     margin: 1,

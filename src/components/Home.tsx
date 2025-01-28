@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
   StatusBar,
+  Dimensions,
+  Animated,
+  ImageBackground,
 } from "react-native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
@@ -15,61 +18,104 @@ type HomeScreenNavigationProp = NativeStackNavigationProp<
   "Home"
 >;
 
-const Home = () => {
+export default function Home() {
   const navigation = useNavigation<HomeScreenNavigationProp>();
 
-  return (
-    <View style={styles.container}>
-      <StatusBar barStyle="light-content" />
-      <View style={styles.content}>
-        <Text style={styles.title}>Memory Match</Text>
-        <Text style={styles.subtitle}>Challenge Your Brain!</Text>
+  const [bounceAnim] = useState(new Animated.Value(1));
 
-        <TouchableOpacity
-          style={styles.playButton}
-          onPress={() => navigation.navigate("Game")}
+  useEffect(() => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.spring(bounceAnim, {
+          toValue: 1.1,
+          friction: 1,
+          tension: 10,
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
+  }, [bounceAnim]);
+
+  return (
+    <ImageBackground
+      source={require("../../assets/images/bg.jpg")}
+      style={styles.container}
+    >
+      <StatusBar barStyle="light-content" />
+
+      <View style={styles.titleContainer}>
+        <Animated.Text
+          style={[styles.titleTop, { transform: [{ scale: bounceAnim }] }]}
         >
-          <Text style={styles.playButtonText}>PLAY NOW</Text>
-        </TouchableOpacity>
+          Memory
+        </Animated.Text>
+        <Animated.Text
+          style={[styles.titleBottom, { transform: [{ scale: bounceAnim }] }]}
+        >
+          Match
+        </Animated.Text>
       </View>
-    </View>
+
+      <TouchableOpacity
+        style={styles.playButton}
+        onPress={() => navigation.navigate("Game")}
+      >
+        <Text style={styles.playText}>Play</Text>
+      </TouchableOpacity>
+    </ImageBackground>
   );
-};
+}
+
+const { width } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#1a1a1a",
-  },
-  content: {
-    flex: 1,
-    justifyContent: "center",
+    justifyContent: "space-evenly",
     alignItems: "center",
-    padding: 20,
   },
-  title: {
-    fontSize: 42,
+  titleContainer: {
+    alignItems: "center",
+    marginBottom: 100,
+  },
+  titleTop: {
+    color: "white",
+    fontSize: 60,
     fontWeight: "bold",
-    color: "#ffffff",
-    marginBottom: 10,
+    textShadowColor: "black",
+    textShadowOffset: { width: 4, height: 4 },
+    textShadowRadius: 1,
+    letterSpacing: 2,
   },
-  subtitle: {
-    fontSize: 18,
-    color: "#ffffff",
-    marginBottom: 40,
+  titleBottom: {
+    color: "white",
+    fontSize: 60,
+    fontWeight: "bold",
+    textShadowColor: "black",
+    textShadowOffset: { width: 4, height: 4 },
+    textShadowRadius: 1,
+    letterSpacing: 2,
   },
   playButton: {
-    backgroundColor: "#4CAF50",
-    paddingHorizontal: 40,
-    paddingVertical: 15,
-    borderRadius: 25,
-    elevation: 5,
+    backgroundColor: "#F59E0B",
+    width: width * 0.4,
+    paddingVertical: 10,
+    borderRadius: 10,
+    borderWidth: 3,
+    borderColor: "#fff",
+    shadowColor: "#78350F",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 1,
+    shadowRadius: 0,
+    elevation: 12,
   },
-  playButtonText: {
-    color: "#ffffff",
-    fontSize: 20,
+  playText: {
+    color: "white",
+    fontSize: 26,
     fontWeight: "bold",
+    textAlign: "center",
+    textShadowColor: "#78350F",
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 1,
   },
 });
-
-export default Home;
