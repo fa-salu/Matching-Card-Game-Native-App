@@ -41,7 +41,7 @@ export default function Home() {
       source={require("../../assets/images/bg.jpg")}
       style={styles.container}
     >
-      <StatusBar barStyle="light-content" />
+      <StatusBar barStyle="light-content" backgroundColor="#202124" />
 
       <View style={styles.titleContainer}>
         <Animated.Text
